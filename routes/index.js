@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/api/users', function(req, res, next) {
+
   DB.User.forge()
   .fetchAll({withRelated: ['posts']})
   .then(users => {
@@ -18,7 +19,7 @@ router.get('/api/users', function(req, res, next) {
 
 router.get('/api/posts', function(req,res, next) {
   DB.Post.forge()
-  .fetchAll({withRelated: ['user', 'votes']})
+  .fetchAll({withRelated: [User.username, Votes.count()]})
   .then(posts => {
     res.json({ posts })
   });
